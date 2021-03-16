@@ -67,6 +67,7 @@ public class CubeControl : MonoBehaviour, IControlable
     public void Reset()
     {
         transform.position = initialPosition;
+        drag_position = transform.position;
         transform.rotation = initialRotation;
     }
 }

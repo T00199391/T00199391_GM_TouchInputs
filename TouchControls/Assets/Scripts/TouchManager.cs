@@ -162,6 +162,7 @@ public class TouchManager : MonoBehaviour
         {
             selectedObject = obj;
             selectedObject.Youve_Been_Selected();
+            camera.Youve_Been_Deselected();
         }
         else
         {
@@ -169,6 +170,7 @@ public class TouchManager : MonoBehaviour
             {
                 selectedObject.Youve_Been_Deselected();
                 selectedObject = null;
+                camera.Youve_Been_Selected();
             }
             else
             {

@@ -55,7 +55,7 @@ public class CapsuleControl : MonoBehaviour, IControlable
     public void RotateTo(float angle, Quaternion initialRotation)
     {
         Quaternion rotation = Quaternion.AngleAxis(angle, Camera.main.transform.forward);
-        transform.rotation = rotation * transform.rotation;
+        transform.rotation = rotation * initialRotation;
     }
 
     public Quaternion GetRotation()
@@ -66,6 +66,7 @@ public class CapsuleControl : MonoBehaviour, IControlable
     public void Reset()
     {
         transform.position = initialPosition;
+        drag_position = transform.position;
         transform.rotation = initialRotation;
     }
 }

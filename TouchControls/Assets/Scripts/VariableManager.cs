@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class VariableManager : MonoBehaviour
 {
     private bool zoom = false, rotate = false, gyro = false, accel = false;
     private List<IControlable> objects;
+    public Button zoomBtn,rotateBtn,gyroBtn;
 
     private void Start()
     {
@@ -29,6 +31,12 @@ public class VariableManager : MonoBehaviour
         {
             zoom = true;
             rotate = false;
+            zoomBtn.GetComponent<Image>().color = Color.blue;
+        }
+        else
+        {
+            zoom = false;
+            zoomBtn.GetComponent<Image>().color = Color.white;
         }
     }
 
@@ -38,12 +46,27 @@ public class VariableManager : MonoBehaviour
         {
             rotate = true;
             zoom = false;
+            rotateBtn.GetComponent<Image>().color = Color.blue;
+        }
+        else
+        {
+            rotate = false;
+            rotateBtn.GetComponent<Image>().color = Color.white;
         }
     }
 
     public void SetGyro()
     {
-        gyro = !gyro;
+        if (gyro == false)
+        {
+            gyro = true;
+            gyroBtn.GetComponent<Image>().color = Color.blue;
+        }
+        else
+        {
+            gyro = false;
+            gyroBtn.GetComponent<Image>().color = Color.white;
+        }
     }
 
     public void SetAccel()
@@ -78,4 +101,6 @@ public class VariableManager : MonoBehaviour
             o.Reset();
         }
     }
+
+
 }

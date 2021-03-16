@@ -7,6 +7,9 @@ public class CameraControl : MonoBehaviour,IControlable
     private Vector3 initialPosition;
     private Quaternion initialRotation;
     private VariableManager vm;
+    public GameObject panel;
+
+    private Vector3 drag_position;
 
     void Start()
     {
@@ -14,6 +17,8 @@ public class CameraControl : MonoBehaviour,IControlable
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         vm = FindObjectOfType<VariableManager>();
+
+        drag_position = transform.position;
     }
 
     void Update()
@@ -32,7 +37,7 @@ public class CameraControl : MonoBehaviour,IControlable
 
     public void MoveTo(Vector3 dis)
     {
-        
+        drag_position = dis;
     }
 
     public void Reset()
@@ -52,19 +57,19 @@ public class CameraControl : MonoBehaviour,IControlable
         if (scaler != 0)
         {
             if (scaler < 1)
-                transform.position += new Vector3(transform.position.x, transform.position.y, 1) * Time.deltaTime;
+                transform.position += new Vector3(0, 0, 2) * Time.deltaTime;
             else
-                transform.position -= new Vector3(transform.position.x, transform.position.y, 1) * Time.deltaTime;
+                transform.position -= new Vector3(0, 0, 2) * Time.deltaTime;
         }
     }
 
     public void Youve_Been_Deselected()
     {
-        
+        panel.SetActive(false);
     }
 
     public void Youve_Been_Selected()
     {
-        
+        panel.SetActive(true);
     }
 }

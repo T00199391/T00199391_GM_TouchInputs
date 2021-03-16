@@ -7,7 +7,6 @@ public class SphereControl : MonoBehaviour, IControlable
     Renderer ourRenderer = new Renderer();
     private Vector3 initialPosition;
     private Quaternion initialRotation;
-    private Rigidbody rigid;
     private VariableManager vm;
     private Vector3 drag_position;
 
@@ -21,22 +20,12 @@ public class SphereControl : MonoBehaviour, IControlable
         ourRenderer.material.color = Color.white;
 
         vm = FindObjectOfType<VariableManager>();
-        rigid = GetComponent<Rigidbody>();
 
         drag_position = transform.position;
     }
 
     void Update()
     {
-        if (vm.GetAccel())
-        {
-            Vector3 tilt = Input.acceleration;
-
-            tilt = Quaternion.Euler(90, 0, 0) * tilt;
-
-            rigid.AddForce(tilt);
-        }
-
         transform.position = Vector3.Lerp(transform.position, drag_position, 0.05f);
     }
 
@@ -69,7 +58,7 @@ public class SphereControl : MonoBehaviour, IControlable
     public void RotateTo(float angle, Quaternion initialRotation)
     {
         Quaternion rotation = Quaternion.AngleAxis(angle, Camera.main.transform.forward);
-        transform.rotation = rotation * transform.rotation;
+        transform.rotation = rotation * initialRotation;
     }
 
     public Quaternion GetRotation()
@@ -80,6 +69,7 @@ public class SphereControl : MonoBehaviour, IControlable
     public void Reset()
     {
         transform.position = initialPosition;
+        drag_position = transform.position;
         transform.rotation = initialRotation;
     }
 }
