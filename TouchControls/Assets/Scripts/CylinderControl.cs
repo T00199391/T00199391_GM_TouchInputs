@@ -7,6 +7,7 @@ public class CylinderControl : MonoBehaviour,IControlable
     Renderer ourRenderer = new Renderer();
     private Vector3 initialPosition;
     private Quaternion initialRotation;
+    private Vector3 initialScale;
     private Rigidbody rigid;
     private VariableManager vm;
     private Vector3 drag_position;
@@ -16,11 +17,12 @@ public class CylinderControl : MonoBehaviour,IControlable
         //reset variables
         initialPosition = transform.position;
         initialRotation = transform.rotation;
+        initialScale = transform.localScale;
 
         ourRenderer = GetComponent<Renderer>();
         ourRenderer.material.color = Color.white;
 
-        drag_position = transform.position;
+        drag_position = transform.position;        
     }
 
     void Update()
@@ -70,5 +72,6 @@ public class CylinderControl : MonoBehaviour,IControlable
         transform.position = initialPosition;
         drag_position = transform.position;
         transform.rotation = initialRotation;
+        transform.localScale = initialScale;
     }
 }

@@ -8,7 +8,7 @@ public class VariableManager : MonoBehaviour
 {
     private bool zoom = false, rotate = false, gyro = false, accel = false;
     private List<IControlable> objects;
-    public Button zoomBtn,rotateBtn,gyroBtn;
+    public Button zoomBtn,rotateBtn,gyroBtn,accelBtn;
 
     private void Start()
     {
@@ -25,18 +25,39 @@ public class VariableManager : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if(zoom)
+            zoomBtn.GetComponent<Image>().color = Color.blue;
+        else
+            zoomBtn.GetComponent<Image>().color = Color.white;
+
+        if(rotate)
+            rotateBtn.GetComponent<Image>().color = Color.blue;
+        else
+            rotateBtn.GetComponent<Image>().color = Color.white;
+
+        if(gyro)
+            gyroBtn.GetComponent<Image>().color = Color.blue;
+        else
+            gyroBtn.GetComponent<Image>().color = Color.white;
+
+        if (accel)
+            accelBtn.GetComponent<Image>().color = Color.blue;
+        else
+            accelBtn.GetComponent<Image>().color = Color.white;
+    }
+
     public void SetZoom()
     {
         if (zoom == false)
         {
             zoom = true;
             rotate = false;
-            zoomBtn.GetComponent<Image>().color = Color.blue;
         }
         else
         {
             zoom = false;
-            zoomBtn.GetComponent<Image>().color = Color.white;
         }
     }
 
@@ -46,12 +67,10 @@ public class VariableManager : MonoBehaviour
         {
             rotate = true;
             zoom = false;
-            rotateBtn.GetComponent<Image>().color = Color.blue;
         }
         else
         {
             rotate = false;
-            rotateBtn.GetComponent<Image>().color = Color.white;
         }
     }
 
@@ -60,18 +79,25 @@ public class VariableManager : MonoBehaviour
         if (gyro == false)
         {
             gyro = true;
-            gyroBtn.GetComponent<Image>().color = Color.blue;
+            accel = false;
         }
         else
         {
             gyro = false;
-            gyroBtn.GetComponent<Image>().color = Color.white;
         }
     }
 
     public void SetAccel()
     {
-        accel = !accel;
+        if (accel == false)
+        {
+            accel = true;
+            gyro = false;
+        }
+        else
+        {
+            accel = false;
+        }
     }
 
     public bool GetZoom()
@@ -101,6 +127,4 @@ public class VariableManager : MonoBehaviour
             o.Reset();
         }
     }
-
-
 }

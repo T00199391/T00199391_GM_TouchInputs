@@ -7,6 +7,7 @@ public class CubeControl : MonoBehaviour, IControlable
     Renderer ourRenderer = new Renderer();
     private Vector3 initialPosition;
     private Quaternion initialRotation;
+    private Vector3 initialScale;
     private Vector3 drag_position;
 
     void Start()
@@ -14,6 +15,7 @@ public class CubeControl : MonoBehaviour, IControlable
         //reset variables
         initialPosition = transform.position;
         initialRotation = transform.rotation;
+        initialScale = transform.localScale;
 
         ourRenderer = GetComponent<Renderer>();
         ourRenderer.material.color = Color.white;
@@ -69,5 +71,6 @@ public class CubeControl : MonoBehaviour, IControlable
         transform.position = initialPosition;
         drag_position = transform.position;
         transform.rotation = initialRotation;
+        transform.localScale = initialScale;
     }
 }

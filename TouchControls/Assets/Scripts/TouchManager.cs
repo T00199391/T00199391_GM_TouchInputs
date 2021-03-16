@@ -25,6 +25,8 @@ public class TouchManager : MonoBehaviour
         currentGestures = Gestures.NONE;
         vm = FindObjectOfType<VariableManager>();
         camera = FindObjectOfType<CameraControl>();
+
+        selectedObject = camera;
     }
 
     void Update()
@@ -57,7 +59,6 @@ public class TouchManager : MonoBehaviour
                     RaycastHit hit;
                     Physics.Raycast(new_pos_ray, out hit);
                     
-
                     if(selectedObject is SphereControl)
                     {
                         selectedObject.MoveTo(hit.point);
@@ -71,14 +72,9 @@ public class TouchManager : MonoBehaviour
 
             case Gestures.ZOOM:
                 IsZooming();
-                if(selectedObject == null)
-                {
-                    camera.ScaleTo(scaler);
-                }
-                else
-                {
-                    selectedObject.ScaleTo(scaler);
-                }
+                if (Input.touchCount == 2)
+                    if (Input.touches[0].phase == TouchPhase.Moved || Input.touches[1].phase == TouchPhase.Moved)
+                        selectedObject.ScaleTo(scaler);
                 if (Input.touchCount <= 1)
                 {
                     currentGestures = Gestures.DETERMINING;
@@ -86,14 +82,9 @@ public class TouchManager : MonoBehaviour
                 break;
             case Gestures.ROTATE:
                 IsRotating();
-                if (selectedObject == null)
-                {
-                    camera.RotateTo(angle, initialRotation);
-                }
-                else
-                {
-                    selectedObject.RotateTo(angle, initialRotation);
-                }
+                if(Input.touchCount == 2)
+                    if(Input.touches[0].phase == TouchPhase.Moved || Input.touches[1].phase == TouchPhase.Moved)
+                        selectedObject.RotateTo(angle, initialRotation);
                 if (Input.touchCount <= 1)
                 {
                     currentGestures = Gestures.DETERMINING;
@@ -132,14 +123,7 @@ public class TouchManager : MonoBehaviour
             if (Input.GetTouch(1).phase == TouchPhase.Began)
             {
                 initialDistance = Vector3.Distance(Input.GetTouch(0).position, Input.GetTouch(1).position);
-                if(selectedObject == null)
-                {
-                    initialRotation = camera.GetRotation();
-                }
-                else
-                {
-                    initialRotation = selectedObject.GetRotation();
-                }
+                initialRotation = selectedObject.GetRotation();
             }
 
             if (vm.GetRotate())
@@ -158,26 +142,17 @@ public class TouchManager : MonoBehaviour
 
     private void TapAction()
     {
-        if(selectedObject == null)
+        if (selectedObject == obj)
         {
-            selectedObject = obj;
-            selectedObject.Youve_Been_Selected();
-            camera.Youve_Been_Deselected();
+            selectedObject.Youve_Been_Deselected();
+            selectedObject = camera;
+            camera.Youve_Been_Selected();
         }
         else
         {
-            if(selectedObject == obj)
-            {
-                selectedObject.Youve_Been_Deselected();
-                selectedObject = null;
-                camera.Youve_Been_Selected();
-            }
-            else
-            {
-                selectedObject.Youve_Been_Deselected();
-                selectedObject = obj;
-                selectedObject.Youve_Been_Selected();
-            }
+            selectedObject.Youve_Been_Deselected();
+            selectedObject = obj;
+            selectedObject.Youve_Been_Selected();
         }
         if(obj != null)
         {

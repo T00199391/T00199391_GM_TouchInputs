@@ -17,8 +17,6 @@ public class CameraControl : MonoBehaviour,IControlable
         initialPosition = transform.position;
         initialRotation = transform.rotation;
         vm = FindObjectOfType<VariableManager>();
-
-        drag_position = transform.position;
     }
 
     void Update()
@@ -37,7 +35,17 @@ public class CameraControl : MonoBehaviour,IControlable
 
     public void MoveTo(Vector3 dis)
     {
-        drag_position = dis;
+        if(Input.touchCount == 1)
+        {
+            if (Input.touches[0].position.x < 1000)
+                transform.position += Vector3.left * 5 * Time.deltaTime;
+            else if (Input.touches[0].position.x >= 1000)
+                transform.position += Vector3.right * 5 * Time.deltaTime;
+            if (Input.touches[0].position.y < 500)
+                transform.position += -Vector3.up * 5 * Time.deltaTime;
+            else if (Input.touches[0].position.y >= 500)
+                transform.position += Vector3.up * 5 * Time.deltaTime;
+        }
     }
 
     public void Reset()
@@ -48,7 +56,7 @@ public class CameraControl : MonoBehaviour,IControlable
 
     public void RotateTo(float angle, Quaternion initialRotation)
     {
-        Quaternion rotation = Quaternion.AngleAxis(angle, Camera.main.transform.forward);
+        Quaternion rotation = Quaternion.AngleAxis(angle, -Camera.main.transform.forward);
         transform.rotation = rotation * initialRotation;
     }
 
@@ -57,9 +65,9 @@ public class CameraControl : MonoBehaviour,IControlable
         if (scaler != 0)
         {
             if (scaler < 1)
-                transform.position += new Vector3(0, 0, 2) * Time.deltaTime;
+                transform.Translate(Vector3.forward * 0.1f);
             else
-                transform.position -= new Vector3(0, 0, 2) * Time.deltaTime;
+                transform.Translate(Vector3.back * 0.1f);
         }
     }
 
